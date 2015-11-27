@@ -1,0 +1,19 @@
+.bookcase_item {
+  list-style-type: none;
+  display: block;
+  width: 500px;
+  height: 100px;
+  border: 1px solid black;
+
+  &+ .bookcase_item {
+    margin-bottom: 10px;
+  }
+
+  .order {
+    color: gray;
+  }
+
+  .bookcount {
+    font-weight: bold;
+  }
+}
