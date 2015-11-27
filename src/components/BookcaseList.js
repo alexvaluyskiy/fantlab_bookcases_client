@@ -1,10 +1,11 @@
-import React            from 'react';
+import React, { PropTypes } from 'react';
 import { BookcaseItem } from 'components/BookcaseItem';
 
 export const BookcaseList = ({
   bookcases,
   group
 }) => {
+  console.log(bookcases);
   return (<div>
     <h2>Книжные полки {group === 'work' ? 'произведений' : 'изданий'}</h2>
     <ul>
@@ -14,3 +15,8 @@ export const BookcaseList = ({
     </ul>
   </div>);
 }
+
+BookcaseList.propTypes = {
+  bookcases : PropTypes.array,
+  group: PropTypes.string
+};

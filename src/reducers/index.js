@@ -1,8 +1,8 @@
 import { combineReducers }    from 'redux';
 import { routerStateReducer } from 'redux-router';
-import counter                from './counter';
+import bookcase               from './bookcase';
 
 export default combineReducers({
-  counter,
+  bookcases: bookcase,
   router: routerStateReducer
 });
