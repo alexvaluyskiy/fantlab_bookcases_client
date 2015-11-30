@@ -1,19 +1,20 @@
 import React    from 'react';
 import { Link } from 'react-router';
 
+import 'font-awesome/scss/font-awesome.scss';
+
 export const BookcaseItem = ({
   bookcase,
   onDeleteClick
 }) => {
-  return <li className={`bookcase_item ${bookcase.type}`}>
-    <Link to={`/bookcases/${bookcase.bookcase_id}`}>{bookcase.name}</Link>
-    <span className="description"> ({bookcase.description})</span>
-    <span className="order"> (#{bookcase.order})</span>
-    <span className="bookcount"> (книг: {bookcase.bookcount})</span>
-    <div>
-      <button className="btn btn-sm" onClick={() => {
-        onDeleteClick(bookcase.bookcase_id);
-      }}>Удалить полку</button>
-    </div>
+  return <li className="bookcase_item">
+    <i className="bookcase_close fa fa-times" onClick={() => {
+      onDeleteClick(bookcase.bookcase_id);
+    }}></i>
+    <i className="bookcase_edit fa fa-pencil-square-o"></i>
+    <div className={`bookcase_icon ${bookcase.type}`}></div>
+    <h3>{bookcase.name}</h3>
+    <p>{bookcase.description}</p>
+    <span className="bookcase_count">{bookcase.bookcount} шт.</span>
   </li>
 }

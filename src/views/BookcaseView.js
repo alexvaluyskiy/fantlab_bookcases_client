@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import bookcaseActions        from 'actions/bookcase';
 import { BookcaseList }       from 'components/BookcaseList';
-import { Link } from 'react-router';
 
 import 'styles/bookcase.scss';
 
@@ -22,16 +21,19 @@ export class BookcaseView extends Component {
 
     return <div className='container'>
         <h1>Книжные полки</h1>
-        <input ref={node => { bookcaseName = node; }} />
-        <button className="btn" onClick={() => {
-          this.props.actions.add_bookcase({
-            bookcase_id: 100,
-            name: bookcaseName.value,
-            group: 'work'
-          })
-        }}>
-          Добавить полку
-        </button>
+        <form className="form-inline">
+          <div className="form-group">
+            <input type="text" className="form-control" placeholder="Название" ref={node => { bookcaseName = node; }}/>
+          </div>
+          <button type="button" className="btn btn-default" onClick={() => {
+            this.props.actions.add_bookcase({
+              bookcase_id: 100,
+              name: bookcaseName.value,
+              group: 'work',
+              bookcount: 0
+            })
+          }}>Добавить полку</button>
+        </form>
 
         {this.props.bookcases.some(bookcase => bookcase.group === 'work')
           ? <BookcaseList bookcases={this.props.bookcases} group='work' onDeleteClick={this.props.actions.remove_bookcase} />
