@@ -1,1 +1,123 @@
-// Settings go here
+// Some best-practice CSS that's useful for most apps
+// Just remove them if they're not what you want
+html {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.root {
+  height: 100%;
+}
+
+// Additional settings go here
+.bookcase_list {
+  list-style-type: none;
+  width: 500px;
+  padding: 0;
+
+  .bookcase_item {
+    padding: 10px;
+    overflow: auto;
+    list-style-type: none;
+    position: relative;
+
+    &.bookcase_item_private {
+      background: #F9FAFB;
+    }
+
+    h3,
+    .bookcase_count {
+      font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+    }
+
+    h3 {
+      margin: 0;
+    }
+
+    p {
+      font: 200 12px/1.5 Georgia, Times New Roman, serif;
+      margin: 0;
+    }
+
+    .bookcase_icon {
+      width: 80px;
+      height: 80px;
+      float: left;
+      margin: 0 15px 0 0;
+      background: url('https://fantlab.ru/img/bc_mybooks.gif') no-repeat;
+      background-position: center;
+
+      &.sell {
+        background-image: url('https://fantlab.ru/img/bc_sell.gif')
+      }
+
+      &.buy {
+        background-image: url('https://fantlab.ru/img/bc_buy.gif')
+      }
+
+      &.read {
+        background-image: url('https://fantlab.ru/img/bc_toread.gif')
+      }
+
+      &.expect {
+        background-image: url('https://fantlab.ru/img/bc_expect.png')
+      }
+    }
+
+    img {
+      width: 80px;
+      height: 80px;
+      float: left;
+      margin: 0 15px 0 0;
+    }
+
+    &:hover {
+      background: #eee;
+      cursor: pointer;
+
+      .bookcase_close, .bookcase_edit
+      {
+        opacity: 0.3;
+      }
+    }
+
+    .bookcase_close,
+    .bookcase_edit {
+      opacity: 0.0;
+      top: 5px;
+      right: 5px;
+      position: absolute;
+
+      &:hover
+      {
+        opacity: 1;
+      }
+    }
+
+    .bookcase_edit {
+      right: 18px;
+      top: 6px;
+    }
+
+    .bookcase_count {
+      font-weight: bold;
+      font-size: small;
+      color: gray;
+      right: 5px;
+      bottom: 5px;
+      position: absolute;
+    }
+  }
+}

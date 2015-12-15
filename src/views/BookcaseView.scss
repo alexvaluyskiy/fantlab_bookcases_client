@@ -7,6 +7,7 @@
     padding: 10px;
     overflow: auto;
     list-style-type: none;
+    position: relative;
 
     &.bookcase_item_private {
       background: #F9FAFB;
@@ -71,7 +72,9 @@
     .bookcase_close,
     .bookcase_edit {
       opacity: 0.0;
-      float:right;
+      top: 5px;
+      right: 5px;
+      position: absolute;
 
       &:hover
       {
@@ -80,14 +83,17 @@
     }
 
     .bookcase_edit {
-      margin-right: 2px;
+      right: 18px;
+      top: 6px;
     }
 
     .bookcase_count {
       font-weight: bold;
       font-size: small;
-      float: right;
       color: gray;
+      right: 5px;
+      bottom: 5px;
+      position: absolute;
     }
   }
 }

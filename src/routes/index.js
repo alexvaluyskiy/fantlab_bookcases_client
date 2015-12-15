@@ -1,12 +1,14 @@
-import React                 from 'react';
+import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import CoreLayout            from 'layouts/CoreLayout';
-import HomeView              from 'views/HomeView';
-import BookcaseView          from 'views/BookcaseView';
+import CoreLayout from 'layouts/CoreLayout';
+import HomeView from 'views/HomeView';
+import AboutView from 'views/AboutView';
+import BookcaseView from 'views/BookcaseView';
 
 export default (
-  <Route path='/' component={CoreLayout}>
+  <Route component={CoreLayout} path='/'>
     <IndexRoute component={HomeView} />
-    <Route path="bookcases" component={BookcaseView}></Route>
+    <Route component={AboutView} path='/about' />
+    <Route path='bookcases' component={BookcaseView} />
   </Route>
 );

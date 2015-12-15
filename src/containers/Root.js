@@ -1,39 +1,35 @@
-import React                    from 'react';
-import { Provider }             from 'react-redux';
-import routes                   from '../routes';
-import { ReduxRouter }          from 'redux-router';
-import DevTools                 from './DevTools';
-import { createDevToolsWindow } from '../utils';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router';
 
 export default class Root extends React.Component {
   static propTypes = {
-    store : React.PropTypes.object.isRequired,
-    debug : React.PropTypes.bool,
-    debugExternal : React.PropTypes.bool
+    history: React.PropTypes.object.isRequired,
+    routes: React.PropTypes.element.isRequired,
+    store: React.PropTypes.object.isRequired
   }
 
-  static defaultProps = {
-    debug : false,
-    debugExternal : false
+  get content () {
+    return (
+      <Router history={this.props.history}>
+        {this.props.routes}
+      </Router>
+    );
   }
 
-  renderDevTools () {
-    if (!this.props.debug) {
-      return null;
+  get devTools () {
+    if (__DEBUG__ && !__DEBUG_NEW_WINDOW__) {
+      const DevTools = require('containers/DevTools');
+      return <DevTools />;
     }
-
-    return this.props.debugExternal ?
-      createDevToolsWindow(this.props.store) : <DevTools />;
   }
 
   render () {
     return (
       <Provider store={this.props.store}>
-        <div>
-          <ReduxRouter>
-            {routes}
-          </ReduxRouter>
-          {this.renderDevTools()}
+        <div style={{ height: '100%' }}>
+          {this.content}
+          {this.devTools}
         </div>
       </Provider>
     );

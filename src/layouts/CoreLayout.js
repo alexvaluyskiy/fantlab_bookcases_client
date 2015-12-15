@@ -1,18 +1,18 @@
 import React from 'react';
 import 'styles/core.scss';
 
-export default class CoreLayout extends React.Component {
-  static propTypes = {
-    children : React.PropTypes.element
-  }
-
-  render () {
-    return (
-      <div className='page-container'>
-        <div className='view-container'>
-          {this.props.children}
-        </div>
+function CoreLayout ({ children }) {
+  return (
+    <div className='page-container'>
+      <div className='view-container'>
+        {children}
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+CoreLayout.propTypes = {
+  children: React.PropTypes.element
+};
+
+export default CoreLayout;

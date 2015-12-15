@@ -1,37 +1,42 @@
-import React                  from 'react';
-import { bindActionCreators } from 'redux';
-import { connect }            from 'react-redux';
-import counterActions         from 'actions/counter';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
+import { actions as counterActions } from '../redux/modules/counter';
+import './HomeView.scss';
 
-// We define mapStateToProps and mapDispatchToProps where we'd normally use
-// the @connect decorator so the data requirements are clear upfront, but then
-// export the decorated component after the main class definition so
-// the component can be tested w/ and w/o being connected.
-// See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
 const mapStateToProps = (state) => ({
-  counter : state.counter,
-  routerState : state.router
+  counter: state.counter
 });
-const mapDispatchToProps = (dispatch) => ({
-  actions : bindActionCreators(counterActions, dispatch)
-});
-export class HomeView extends React.Component {
-  static propTypes = {
-    actions  : React.PropTypes.object,
-    counter  : React.PropTypes.number
-  }
 
+export class HomeView extends Component {
   render () {
     return (
-      <div className='container'>
-        <h1>Welcome to the Redux demo</h1>
-        <ul>
-          <li><a href="/bookcases">Книжные полки</a></li>
-          <li><span>Список серий</span></li>
-        </ul>
+      <div className='container text-center'>
+        <h1>Welcome to the React Redux Starter Kit</h1>
+        <h2>
+          Sample Counter:&nbsp;
+          <span className='counter'>{this.props.counter}</span>
+        </h2>
+        <button className='btn btn-default'
+                onClick={() => this.props.increment(1)}>
+          Increment
+        </button>
+        <button className='btn btn-default' onClick={this.props.doubleAsync}>
+          Double (Async)
+        </button>
+        <hr />
+        <Link to='/about'>Go To About View</Link>
+        <br />
+        <Link to='/bookcases'>View Bookcase</Link>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeView);
+HomeView.propTypes = {
+  counter: PropTypes.number.isRequired,
+  doubleAsync: PropTypes.func.isRequired,
+  increment: PropTypes.func.isRequired
+};
+
+export default connect(mapStateToProps, counterActions)(HomeView);
