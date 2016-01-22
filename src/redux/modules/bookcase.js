@@ -2,7 +2,7 @@ import { createAction, handleActions } from 'redux-actions';
 import without from 'lodash/array/without';
 
 let urls = {
-  'bookcaseServiceUrl': 'http://localhost:3001/v1/'
+  'bookcaseServiceUrl': 'http://localhost:4001/v1/'
 };
 
 // ------------------------------------
@@ -20,22 +20,21 @@ export const DELETE_BOOKCASE = 'DELETE_BOOKCASE';
 
 export const loadBookcasesAsync = (userId) => {
   return (dispatch, getState) => {
-    fetch(urls.bookcaseServiceUrl + `bookcases?userid=${userId}`)
+    fetch(urls.bookcaseServiceUrl + `bookcases/users/${userId}`)
         .then(response => response.json())
         .then(json => dispatch(loadBookcases(json)));
   };
 };
 
-export const viewBookcaseAsync = (bookcase_id) => {
+export const viewBookcaseAsync = (bookcaseId) => {
   return (dispatch, getState) => {
-    fetch(urls.bookcaseServiceUrl + `bookcases/${bookcase_id}`)
+    fetch(urls.bookcaseServiceUrl + `bookcases/${bookcaseId}`)
         .then(response => response.json())
-        .then(json => dispatch(viewBookcase(bookcase_id)));
+        .then(json => dispatch(viewBookcase(bookcaseId)));
   };
 };
 
 export const addBookcaseAsync = (bookcase) => {
-  console.log(bookcase);
   return (dispatch, getState) => {
     fetch(urls.bookcaseServiceUrl + 'bookcases', {
       method: 'POST',
@@ -65,12 +64,12 @@ export const editBookcaseAsync = (bookcase) => {
   };
 };
 
-export const deleteBookcaseAsync = (bookcase_id) => {
+export const deleteBookcaseAsync = (bookcaseId, userId) => {
   return (dispatch, getState) => {
-    fetch(urls.bookcaseServiceUrl + `bookcases/${bookcase_id}`, {
+    fetch(urls.bookcaseServiceUrl + `bookcases/${bookcaseId}?userId=${userId}`, {
       method: 'DELETE'
     })
-    .then(_ => dispatch(deleteBookcase(bookcase_id)));
+    .then(_ => dispatch(deleteBookcase(bookcaseId)));
   };
 };
 
@@ -87,10 +86,10 @@ export const actions = {
 // ------------------------------------
 
 export const loadBookcases = createAction(LOAD_BOOKCASES, (bookcases) => bookcases);
-export const viewBookcase = createAction(VIEW_BOOKCASES, (bookcase_id) => bookcase_id);
+export const viewBookcase = createAction(VIEW_BOOKCASES, (bookcaseId) => bookcaseId);
 export const addBookcase = createAction(ADD_BOOKCASE, (bookcase) => bookcase);
 export const editBookcase = createAction(EDIT_BOOKCASE, (bookcase) => bookcase);
-export const deleteBookcase = createAction(DELETE_BOOKCASE, (bookcase_id) => bookcase_id);
+export const deleteBookcase = createAction(DELETE_BOOKCASE, (bookcaseId) => bookcaseId);
 
 // ------------------------------------
 // Reducer
@@ -102,6 +101,9 @@ export default handleActions({
   },
   ADD_BOOKCASE: (state, { payload }) => {
     return [...state, payload];
+  },
+  EDIT_BOOKCASE: (state, { payload }) => {
+    return state;
   },
   DELETE_BOOKCASE: (state, { payload }) => {
     var element = state.find(item => item.bookcase_id === payload);

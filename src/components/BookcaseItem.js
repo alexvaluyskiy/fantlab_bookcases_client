@@ -9,9 +9,9 @@ export const BookcaseItem = ({
     <div className={`bookcase_icon ${bookcase.type}`}></div>
     <h3>{bookcase.name}</h3>
     <p>{bookcase.description}</p>
-    <span className='bookcase_count'>{bookcase.bookcount} шт.</span>
+    <span className='bookcase_count'>{bookcase.books_count} шт.</span>
     <i className='bookcase_close fa fa-times' onClick={() => {
-      onDeleteClick(bookcase.bookcase_id);
+      onDeleteClick(bookcase.bookcase_id, bookcase.user_id);
     }}></i>
     <i className='bookcase_edit fa fa-pencil-square-o'></i>
   </li>;

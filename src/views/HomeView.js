@@ -4,6 +4,8 @@ import { Link } from 'react-router';
 import { actions as counterActions } from '../redux/modules/counter';
 import './HomeView.scss';
 
+import { LoginForm } from 'components/LoginForm';
+
 const mapStateToProps = (state) => ({
   counter: state.counter
 });
@@ -28,6 +30,8 @@ export class HomeView extends Component {
         <Link to='/about'>Go To About View</Link>
         <br />
         <Link to='/bookcases'>View Bookcase</Link>
+        <br />
+        <LoginForm />
       </div>
     );
   }
