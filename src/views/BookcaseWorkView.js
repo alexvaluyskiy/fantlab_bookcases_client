@@ -10,15 +10,14 @@ const mapStateToProps = (state) => ({
 export class BookcaseWorkView extends Component {
   constructor (props) {
     super(props);
-    this.state = { bookcaseId: 1 };
   }
 
   componentWillMount () {
-    this.props.loadBookcaseListAsync(this.state.bookcaseId);
+    let bookcaseId = this.props.routeParams.bookcaseId;
+    this.props.loadBookcaseListAsync(bookcaseId);
   }
 
   render () {
-    console.log(this.props);
     return <div className='container'>
         <h1>Книжная полка: !NAME!</h1>
         {this.props.bookcaseWorks.map(bookcaseWork =>

@@ -1,7 +1,7 @@
 {
   "name": "fantlab-bookcases-client",
   "version": "1.0.0",
-  "description": "Get started with React, Redux, and React-Router!",
+  "description": "Fantlab Bookcase Client",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist",
@@ -18,9 +18,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davezuko/react-redux-starter-kit.git"
+    "url": "git+https://github.com/ravengerUA/fantlab_bookcases_client.git"
   },
-  "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
+  "author": "Alex Valuyskiy",
   "license": "MIT",
   "dependencies": {
     "cssnano": "^3.3.2",

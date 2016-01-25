@@ -1,5 +1,4 @@
 import { createAction, handleActions } from 'redux-actions';
-import without from 'lodash/without';
 
 let urls = {
   'bookcaseServiceUrl': 'http://localhost:3002/v1/'

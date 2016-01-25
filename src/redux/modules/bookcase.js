@@ -1,5 +1,4 @@
 import { createAction, handleActions } from 'redux-actions';
-import without from 'lodash/without';
 
 let urls = {
   'bookcaseServiceUrl': 'http://localhost:4001/v1/'
@@ -15,14 +14,14 @@ export const EDIT_BOOKCASE = 'EDIT_BOOKCASE';
 export const DELETE_BOOKCASE = 'DELETE_BOOKCASE';
 
 // ------------------------------------
-// Actions
+// Action Creators
 // ------------------------------------
 
 export const loadBookcasesAsync = (userId) => {
   return (dispatch, getState) => {
     fetch(urls.bookcaseServiceUrl + `bookcases/users/${userId}`)
         .then(response => response.json())
-        .then(json => dispatch(loadBookcases(json)));
+        .then(bookcases => dispatch(createAction(LOAD_BOOKCASES, (bookcases) => bookcases)));
   };
 };
 
@@ -45,7 +44,7 @@ export const addBookcaseAsync = (bookcase) => {
       body: JSON.stringify(bookcase)
     })
     .then(response => response.json())
-    .then(json => dispatch(addBookcase(json)));
+    .then(bookcase => dispatch(createAction(ADD_BOOKCASE, (bookcase) => bookcase)));
   };
 };
 
@@ -60,7 +59,7 @@ export const editBookcaseAsync = (bookcase) => {
       body: JSON.stringify(bookcase)
     })
     .then(response => response.json())
-    .then(json => dispatch(editBookcase(bookcase)));
+    .then(bookcase => dispatch(createAction(EDIT_BOOKCASE, (bookcase) => bookcase)));
   };
 };
 
@@ -69,7 +68,7 @@ export const deleteBookcaseAsync = (bookcaseId) => {
     fetch(urls.bookcaseServiceUrl + `bookcases/${bookcaseId}`, {
       method: 'DELETE'
     })
-    .then(_ => dispatch(deleteBookcase(bookcaseId)));
+    .then(_ => dispatch(createAction(DELETE_BOOKCASE, (bookcaseId) => bookcaseId)));
   };
 };
 
@@ -80,16 +79,6 @@ export const actions = {
   editBookcaseAsync,
   deleteBookcaseAsync
 };
-
-// ------------------------------------
-// Action Creators
-// ------------------------------------
-
-export const loadBookcases = createAction(LOAD_BOOKCASES, (bookcases) => bookcases);
-export const viewBookcase = createAction(VIEW_BOOKCASES, (bookcaseId) => bookcaseId);
-export const addBookcase = createAction(ADD_BOOKCASE, (bookcase) => bookcase);
-export const editBookcase = createAction(EDIT_BOOKCASE, (bookcase) => bookcase);
-export const deleteBookcase = createAction(DELETE_BOOKCASE, (bookcaseId) => bookcaseId);
 
 // ------------------------------------
 // Reducer
@@ -103,10 +92,12 @@ export default handleActions({
     return [...state, payload];
   },
   EDIT_BOOKCASE: (state, { payload }) => {
-    return state;
+    return [
+      ...state.filter(item => item.bookcase_id !== payload.bookcase_id),
+      payload
+    ];
   },
   DELETE_BOOKCASE: (state, { payload }) => {
-    var element = state.find(item => item.bookcase_id === payload);
-    return without(state, element);
+    return state.filter(item => item.bookcase_id !== payload);
   }
 }, []);
