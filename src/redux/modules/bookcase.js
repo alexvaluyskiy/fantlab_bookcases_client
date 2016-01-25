@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import without from 'lodash/array/without';
+import without from 'lodash/without';
 
 let urls = {
   'bookcaseServiceUrl': 'http://localhost:4001/v1/'
@@ -64,9 +64,9 @@ export const editBookcaseAsync = (bookcase) => {
   };
 };
 
-export const deleteBookcaseAsync = (bookcaseId, userId) => {
+export const deleteBookcaseAsync = (bookcaseId) => {
   return (dispatch, getState) => {
-    fetch(urls.bookcaseServiceUrl + `bookcases/${bookcaseId}?userId=${userId}`, {
+    fetch(urls.bookcaseServiceUrl + `bookcases/${bookcaseId}`, {
       method: 'DELETE'
     })
     .then(_ => dispatch(deleteBookcase(bookcaseId)));

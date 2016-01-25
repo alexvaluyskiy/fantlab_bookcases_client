@@ -65,7 +65,7 @@ const webpackConfig = {
         query: {
           cacheDirectory: true,
           plugins: ['transform-runtime', 'add-module-exports'],
-          presets: ['es2015', 'react', 'stage-0'],
+          presets: ['es2015', 'react'],
           env: {
             development: {
               plugins: [

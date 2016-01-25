@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { actions as bookcaseWorkActions } from '../redux/modules/bookcaseWork';
 
 const mapStateToProps = (state) => ({
-  bookcaseWorks: state.bookcaseWorks
+  bookcaseWorks: state.bookcaseWorks,
+  bookcases: state.bookcases
 });
 
 export class BookcaseWorkView extends Component {
@@ -17,13 +18,17 @@ export class BookcaseWorkView extends Component {
   }
 
   render () {
+    console.log(this.props);
     return <div className='container'>
         <h1>Книжная полка: !NAME!</h1>
-        {this.props.bookcaseWorks.map(work =>
-          <ul key={work.bookcase_work_id}>
-            <li>Name: {work.name}</li>
-            <li>Description: {work.description}</li>
-            <li>Rating: {work.rating}</li>
+        {this.props.bookcaseWorks.map(bookcaseWork =>
+          <ul key={bookcaseWork.bookcase_work_id}>
+            <li>Work Id: {bookcaseWork.work.work_id}</li>
+            <li>Name: {bookcaseWork.work.name}</li>
+            <li>Rus Name: {bookcaseWork.work.rus_name}</li>
+            <li>Year: {bookcaseWork.work.year}</li>
+            <li>Rating: {bookcaseWork.work.rating}</li>
+            <li>Marks Count: {bookcaseWork.work.marks_count}</li>
           </ul>
         )}
       </div>;

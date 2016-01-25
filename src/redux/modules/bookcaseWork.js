@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import without from 'lodash/array/without';
+import without from 'lodash/without';
 
 let urls = {
   'bookcaseServiceUrl': 'http://localhost:3002/v1/'
@@ -18,13 +18,7 @@ export const loadBookcaseListAsync = (bookcaseId) => {
   return (dispatch, getState) => {
     fetch(urls.bookcaseServiceUrl + `bookcases/${bookcaseId}/works`)
       .then(response => response.json())
-      .then(bookcaseWorks => {
-        bookcaseWorks.forEach(work => {
-          fetch(`http://fantlab.ru/work${work.work_id}.json`, { mode: 'no-cors' })
-            .then(resp => resp.json())
-            .then(json => console.log(json));
-        });
-    });
+      .then(json => dispatch(loadBookcaseList(json)));
   };
 };
 

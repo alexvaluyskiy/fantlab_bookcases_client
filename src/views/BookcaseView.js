@@ -13,49 +13,45 @@ const mapStateToProps = (state) => ({
 export class BookcaseView extends Component {
   constructor (props) {
     super(props);
-    this.state = { userId: 1 };
+    this.state = { user_id: 1 };
   }
 
   componentWillMount () {
-    this.props.loadBookcasesAsync(this.state.userId);
+    this.props.loadBookcasesAsync(this.state.user_id);
   }
 
   onAddBookcaseOpenClick (e) {
-    this.setState({ showBookcaseAddWindow: true });
+    this.setState({ selectedBookcase: {}, showBookcaseAddWindow: true });
+  }
+
+  onEditBookcaseOpenClick (e, bookcase_id) {
+    let bookcase = this.props.bookcases.filter(elem => elem.bookcase_id === bookcase_id)[0];
+    this.setState({ selectedBookcase: bookcase, showBookcaseAddWindow: true });
   }
 
   onAddBookcaseCloseClick (e) {
     this.setState({ showBookcaseAddWindow: false });
   }
 
-  onNameChange (e) {
-    this.setState({bookcaseName: e.target.value});
-  }
-
-  onGroupChange (e) {
-    this.setState({bookcaseGroup: e.target.value});
-  }
-
-  onTypeChange (e) {
-    this.setState({bookcaseType: e.target.value});
-  }
-
   render () {
-    let bookcaseName;
-
     return <div className='container'>
         <h1>Книжные полки</h1>
 
         <Button bsStyle="primary" onClick={this.onAddBookcaseOpenClick.bind(this)}>Добавить полку</Button>
 
-        <BookcaseAddWindow show={this.state.showBookcaseAddWindow} onHide={this.onAddBookcaseCloseClick} />
+        <BookcaseAddWindow
+            show={this.state.showBookcaseAddWindow}
+            onHide={this.onAddBookcaseCloseClick.bind(this)}
+            addBookcaseAsync={this.props.addBookcaseAsync}
+            editBookcaseAsync={this.props.editBookcaseAsync}
+            selectedBookcase={this.state.selectedBookcase} />
 
         {this.props.bookcases.some(bookcase => bookcase.group === 'work')
-          ? <BookcaseList bookcases={this.props.bookcases} group='work' onDeleteClick={this.props.deleteBookcaseAsync} />
+          ? <BookcaseList bookcases={this.props.bookcases} group='work' onEditClick={this.onEditBookcaseOpenClick.bind(this)} onDeleteClick={this.props.deleteBookcaseAsync} />
           : null
         }
         {this.props.bookcases.some(bookcase => bookcase.group === 'edition')
-          ? <BookcaseList bookcases={this.props.bookcases} group='edition' onDeleteClick={this.props.deleteBookcaseAsync} />
+          ? <BookcaseList bookcases={this.props.bookcases} group='edition' onEditClick={this.onEditBookcaseOpenClick.bind(this)} onDeleteClick={this.props.deleteBookcaseAsync} />
           : null
         }
       </div>;

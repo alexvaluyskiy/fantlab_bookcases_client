@@ -1,42 +1,86 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
-import 'font-awesome/scss/font-awesome.scss';
+import { Modal, Button, Input } from 'react-bootstrap';
 
-export const BookcaseAddWindow = ({
-  show,
-  onHide
-}) => {
-  return <div className="static-modal">
-    <Modal show={show} onHide={onHide}>
-      <Modal.Header closeButton>
-        <Modal.Title>Добавить книжную полку</Modal.Title>
-      </Modal.Header>
+export class BookcaseAddWindow extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = { user_id: 1 };
+  }
 
-      <Modal.Body>
-      <form className='form-inline'>
-        <div className='form-group'>
-          <input type='text' className='form-control' placeholder='Название' ref={node => { bookcaseName = node; }} />
-          <select className='form-control' defaultValue='work'>
-            <option value='work'>work</option>
-            <option value='edition'>edition</option>
-          </select>
-          <select className='form-control' defaultValue='default'>
-            <option value='default'>default</option>
-            <option value='buy'>buy</option>
-            <option value='read'>read</option>
-            <option value='expect'>expect</option>
-            <option value='sell'>sell</option>
-          </select>
-        </div>
-      </form>
-      </Modal.Body>
+  componentDidMount () {
+    console.log(this.props);
+  }
 
-      <Modal.Footer>
-        <Button>Закрыть</Button>
-        <Button bsStyle="primary">Добавить</Button>
-      </Modal.Footer>
+  onNameChange (event) {
+    this.setState({ name: event.target.value });
+  }
 
-    </Modal>
-  </div>;
+  onDescriptionChange (event) {
+    this.setState({ description: event.target.value });
+  }
+
+  onGroupChange (event) {
+    this.setState({ group: event.target.value });
+  }
+
+  onTypeChange (event) {
+    this.setState({ type: event.target.value });
+  }
+
+  onPrivateChange (event) {
+    this.setState({ is_private: event.target.checked });
+  }
+
+  onAddClick (event) {
+    let bookcase = {
+      bookcase_id: this.state.bookcase_id,
+      name: this.state.name,
+      description: this.state.description,
+      group: this.state.group,
+      type: this.state.type,
+      is_private: this.state.is_private,
+      user_id: this.state.user_id
+    };
+
+    if (bookcase.bookcase_id > 0) {
+      this.props.editBookcaseAsync(bookcase);
+    }
+    else {
+      this.props.addBookcaseAsync(bookcase);
+    }
+
+    this.props.onHide();
+  }
+
+  render () {
+    return <div className="static-modal">
+      <Modal show={this.props.show} onHide={this.props.onHide}>
+        <Modal.Header closeButton>
+          <Modal.Title>Добавить книжную полку</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <Input type="text" label="Название" value={this.state.name} onChange={this.onNameChange.bind(this)} />
+            <Input type="textarea" label="Описание" value={this.state.description} onChange={this.onDescriptionChange.bind(this)} />
+            <Input type="select" label="Группа полки" value={this.state.group} onChange={this.onGroupChange.bind(this)}>
+              <option value="work">work</option>
+              <option value="edition">edition</option>
+            </Input>
+            <Input type="select" label="Тип полки" value={this.state.type} onChange={this.onTypeChange.bind(this)}>
+              <option value="default">work</option>
+              <option value="buy">buy</option>
+              <option value="read">read</option>
+              <option value="expect">expect</option>
+              <option value="sell">sell</option>
+            </Input>
+            <Input type="checkbox" label="Приватная полка" checked={this.state.is_private ? "checked" : ""} onChange={this.onPrivateChange.bind(this)}/>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.props.onHide}>Закрыть</Button>
+          <Button onClick={this.onAddClick.bind(this)} bsStyle="primary">Добавить</Button>
+        </Modal.Footer>
+      </Modal>
+    </div>;
+  }
 };
