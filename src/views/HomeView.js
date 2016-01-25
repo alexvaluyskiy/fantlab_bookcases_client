@@ -13,23 +13,23 @@ const mapStateToProps = (state) => ({
 export class HomeView extends Component {
   render () {
     return (
-      <div className='container text-center'>
+      <div className="container text-center">
         <h1>Welcome to the React Redux Starter Kit</h1>
         <h2>
           Sample Counter:&nbsp;
-          <span className='counter'>{this.props.counter}</span>
+          <span className="counter">{this.props.counter}</span>
         </h2>
-        <button className='btn btn-default'
+        <button className="btn btn-default"
                 onClick={() => this.props.increment(1)}>
           Increment
         </button>
-        <button className='btn btn-default' onClick={this.props.doubleAsync}>
+        <button className="btn btn-default" onClick={this.props.doubleAsync}>
           Double (Async)
         </button>
         <hr />
-        <Link to='/about'>Go To About View</Link>
+        <Link to="/about">Go To About View</Link>
         <br />
-        <Link to='/bookcases'>View Bookcase</Link>
+        <Link to="/bookcases">View Bookcase</Link>
         <br />
         <LoginForm />
       </div>

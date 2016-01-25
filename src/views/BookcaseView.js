@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { actions as bookcaseActions } from '../redux/modules/bookcase';
+import { actions } from '../redux/actions';
 import { BookcaseList } from 'components/BookcaseList';
 import { BookcaseAddWindow } from 'components/BookcaseAddWindow';
 import { Button } from 'react-bootstrap';
@@ -19,11 +19,11 @@ export class BookcaseView extends Component {
   }
 
   componentWillMount () {
-    this.props.loadBookcasesAsync(this.state.userId);
+    this.props.loadBookcaseListAsync(this.state.userId);
   }
 
-  onBookcaseViewClick (e) {
-    alert(e);
+  onOpenBookcaseViewPage (bookcaseId) {
+    this.props.openBookcaseViewPage(bookcaseId);
   }
 
   onAddBookcaseOpenClick (e) {
@@ -40,7 +40,7 @@ export class BookcaseView extends Component {
   }
 
   render () {
-    return <div className='container'>
+    return <div className="container">
         <h1>Книжные полки</h1>
 
         <Button bsStyle="primary" onClick={this.onAddBookcaseOpenClick.bind(this)}>Добавить полку</Button>
@@ -55,8 +55,8 @@ export class BookcaseView extends Component {
         {this.props.bookcases.some(bookcase => bookcase.group === 'work')
           ? <BookcaseList
                 bookcases={this.props.bookcases}
-                group='work'
-                onViewClick={this.onBookcaseViewClick.bind(this)}
+                group="work"
+                onViewClick={this.onOpenBookcaseViewPage.bind(this)}
                 onEditClick={this.onEditBookcaseOpenClick.bind(this)}
                 onDeleteClick={this.props.deleteBookcaseAsync} />
           : null
@@ -64,8 +64,8 @@ export class BookcaseView extends Component {
         {this.props.bookcases.some(bookcase => bookcase.group === 'edition')
           ? <BookcaseList
                 bookcases={this.props.bookcases}
-                group='edition'
-                onViewClick={this.onBookcaseViewClick.bind(this)}
+                group="edition"
+                onViewClick={this.onOpenBookcaseViewPage.bind(this)}
                 onEditClick={this.onEditBookcaseOpenClick.bind(this)}
                 onDeleteClick={this.props.deleteBookcaseAsync} />
           : null
@@ -76,9 +76,11 @@ export class BookcaseView extends Component {
 
 BookcaseView.propTypes = {
   bookcases: PropTypes.array,
-  loadBookcasesAsync: PropTypes.func.isRequired,
+  loadBookcaseListAsync: PropTypes.func.isRequired,
   addBookcaseAsync: PropTypes.func.isRequired,
-  deleteBookcaseAsync: PropTypes.func.isRequired
+  editBookcaseAsync: PropTypes.func.isRequired,
+  deleteBookcaseAsync: PropTypes.func.isRequired,
+  openBookcaseViewPage: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, bookcaseActions)(BookcaseView);
+export default connect(mapStateToProps, actions)(BookcaseView);

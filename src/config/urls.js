@@ -1,3 +1,3 @@
-export default urls = {
-  'bookcaseServiceUrl': 'http://localhost:3001/v1'
+export const urls = {
+  bookcaseServiceUrl: 'http://localhost:4001/v1/'
 };

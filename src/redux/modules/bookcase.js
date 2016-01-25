@@ -1,14 +1,12 @@
 import { createAction, handleActions } from 'redux-actions';
-
-let urls = {
-  'bookcaseServiceUrl': 'http://localhost:4001/v1/'
-};
+import { pushPath } from 'redux-simple-router';
+import { urls } from '../../config/urls';
 
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const LOAD_BOOKCASE_LIST = 'LOAD_BOOKCASE_LIST';
 export const LOAD_BOOKCASES = 'LOAD_BOOKCASES';
-export const VIEW_BOOKCASES = 'VIEW_BOOKCASES';
 export const ADD_BOOKCASE = 'ADD_BOOKCASE';
 export const EDIT_BOOKCASE = 'EDIT_BOOKCASE';
 export const DELETE_BOOKCASE = 'DELETE_BOOKCASE';
@@ -16,24 +14,29 @@ export const DELETE_BOOKCASE = 'DELETE_BOOKCASE';
 // ------------------------------------
 // Action Creators
 // ------------------------------------
-
-export const loadBookcasesAsync = (userId) => {
+const loadBookcaseListAsync = (userId) => {
   return (dispatch, getState) => {
     fetch(urls.bookcaseServiceUrl + `bookcases/users/${userId}`)
         .then(response => response.json())
-        .then(bookcases => dispatch(createAction(LOAD_BOOKCASES, (bookcases) => bookcases)));
+        .then(bookcases => dispatch(createAction(LOAD_BOOKCASE_LIST)(bookcases)));
   };
 };
 
-export const viewBookcaseAsync = (bookcaseId) => {
+const openBookcaseViewPage = (bookcaseId) => {
+  return (dispatch, getState) => {
+    dispatch(pushPath(`bookcases/${bookcaseId}`));
+  };
+};
+
+const loadBookcaseAsync = (bookcaseId) => {
   return (dispatch, getState) => {
     fetch(urls.bookcaseServiceUrl + `bookcases/${bookcaseId}`)
         .then(response => response.json())
-        .then(json => dispatch(viewBookcase(bookcaseId)));
+        .then(bookcases => dispatch(createAction(LOAD_BOOKCASES)(bookcaseId)));
   };
 };
 
-export const addBookcaseAsync = (bookcase) => {
+const addBookcaseAsync = (bookcase) => {
   return (dispatch, getState) => {
     fetch(urls.bookcaseServiceUrl + 'bookcases', {
       method: 'POST',
@@ -44,11 +47,11 @@ export const addBookcaseAsync = (bookcase) => {
       body: JSON.stringify(bookcase)
     })
     .then(response => response.json())
-    .then(bookcase => dispatch(createAction(ADD_BOOKCASE, (bookcase) => bookcase)));
+    .then(bookcase => dispatch(createAction(ADD_BOOKCASE)(bookcase)));
   };
 };
 
-export const editBookcaseAsync = (bookcase) => {
+const editBookcaseAsync = (bookcase) => {
   return (dispatch, getState) => {
     fetch(urls.bookcaseServiceUrl + `bookcases/${bookcase.bookcase_id}`, {
       method: 'PUT',
@@ -59,25 +62,26 @@ export const editBookcaseAsync = (bookcase) => {
       body: JSON.stringify(bookcase)
     })
     .then(response => response.json())
-    .then(bookcase => dispatch(createAction(EDIT_BOOKCASE, (bookcase) => bookcase)));
+    .then(bookcase => dispatch(createAction(EDIT_BOOKCASE)(bookcase)));
   };
 };
 
-export const deleteBookcaseAsync = (bookcaseId) => {
+const deleteBookcaseAsync = (bookcaseId) => {
   return (dispatch, getState) => {
     fetch(urls.bookcaseServiceUrl + `bookcases/${bookcaseId}`, {
       method: 'DELETE'
     })
-    .then(_ => dispatch(createAction(DELETE_BOOKCASE, (bookcaseId) => bookcaseId)));
+    .then(_ => dispatch(createAction(DELETE_BOOKCASE)(bookcaseId)));
   };
 };
 
 export const actions = {
-  loadBookcasesAsync,
-  viewBookcaseAsync,
+  loadBookcaseListAsync,
+  loadBookcaseAsync,
   addBookcaseAsync,
   editBookcaseAsync,
-  deleteBookcaseAsync
+  deleteBookcaseAsync,
+  openBookcaseViewPage
 };
 
 // ------------------------------------
@@ -85,7 +89,7 @@ export const actions = {
 // ------------------------------------
 
 export default handleActions({
-  LOAD_BOOKCASES: (state, { payload }) => {
+  LOAD_BOOKCASE_LIST: (state, { payload }) => {
     return payload;
   },
   ADD_BOOKCASE: (state, { payload }) => {

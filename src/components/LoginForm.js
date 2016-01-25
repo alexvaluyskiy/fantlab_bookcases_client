@@ -1,8 +1,7 @@
-import React, { Component, PropTypes } from 'react';
-
+import React, { Component } from 'react';
 
 export class LoginForm extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.state = {
@@ -19,15 +18,15 @@ export class LoginForm extends Component {
     this.setState({password: e.target.value});
   }
 
-  onLoginClick(e) {
+  onLoginClick (e) {
     e.preventDefault();
     Auth.login(this.state.user, this.state.password)
-        .catch(function(err) {
-            console.log("Error logging in", err);
+        .catch(function (err) {
+          console.log('Error logging in', err);
         });
   }
 
-  render() {
+  render () {
     return <div className="login jumbotron center-block">
         <h1>Login</h1>
         <form role="form">
@@ -41,6 +40,6 @@ export class LoginForm extends Component {
         </div>
         <button type="submit" className="btn btn-default" onClick={this.onLoginClick.bind(this)}>Submit</button>
       </form>
-    </div>
-  }
+    </div>;
+  };
 }
